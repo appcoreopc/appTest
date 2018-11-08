@@ -1,0 +1,186 @@
+{
+    "setupTasks": [
+        {
+            "task": "setC3BuildVersionSettings",
+            "desc": "Set default c3 build properties",
+            "params": {
+                "company": "C3 Post Trade",
+                "product": "C3.Analyzers"
+            }
+        }
+    ],
+    "beforeTasks": [
+        {
+            "task": "teamCityTaskOutput",
+            "desc": "Team city block output",
+            "params": {
+                "isBeforeTask": "true"
+            }
+        }
+    ],
+    "afterTasks": [
+        {
+            "task": "teamCityTaskOutput",
+            "desc": "Team city block output",
+            "params": {
+                "isBeforeTask": "false"
+            }
+        }
+    ],
+    "commands": [
+        {
+            "command": "prep",
+            "tasks": [
+                {
+                    "task": "dockerRun",
+                    "desc": "Run gitversion",
+                    "params": {
+                        "image": "cap-docker.coretexa.local/c3test/gitversion:latest",
+                        "volumes": [
+                            "..:c:\\repo"
+                        ],
+                        "startArguments": "src\\.gitversion.json"
+                    }
+                }
+            ]
+        },
+        {
+            "command": "build",
+            "tasks": [
+                {
+                    "task": "cleanFiles",
+                    "desc": "Clean bin and obj dirs",
+                    "params": {
+                        "pathGlobs": [
+                            ".\\bin\\**\\*.*",
+                            ".\\obj\\**\\*.*"
+                        ]
+                    }
+                },
+                {
+                    "task": "loadGitVersion",
+                    "desc": "Loads Git Version"
+                },
+                {
+                    "task": "calculateC3Version",
+                    "desc": "Calculate C3 Version from GitVersion"
+                },
+                {
+                    "task": "createAssemblyInfo",
+                    "desc": "Create temporary assembly info file",
+                    "params": {
+                        "pathToAssemblyInfo": ".\\GeneratedAssemblyInfo.cs"
+                    }
+                },
+                {
+                    "task": "createGeneratedBuildProperties",
+                    "desc": "Create generated build properties file",
+                    "params": {
+                        "targetPath": ".\\Generated.Build.props"
+                    }
+                },
+                {
+                    "task": "dotnetBuild",
+                    "desc": "Build the solution",
+                    "targetPath": ".\\c3.core.data.mongodb.sln"
+                }
+            ]
+        },
+        {
+            "command": "unittest",
+            "tasks": [
+                {
+                    "task": "dotnetTest",
+                    "desc": "Run tests for all projects in the directory",
+                    "params": {
+                        "targetGlob": "**\\*.Tests.Unit.csproj",
+						"collectCoverage": "true",
+						"coverageReportFormat": "opencover",
+						"coverageReportFileName": "./opencover.xml",
+						"coverageExclusion": [
+							"[*.Tests.*]*"
+						],
+						"filter": "FullyQualifiedName~Unit",
+						"testAdapterPath": ".",
+						"logger": "console;verbosity=normal"
+                    }
+                }
+            ]
+        },
+        {
+            "command": "integrationtest",
+            "tasks": [
+                {
+                    "task": "dotnetTest",
+                    "desc": "Run integration tests for all projects in the directory",
+                    "params": {
+                        "targetGlob": "**\\*.Tests.Integration.csproj",
+						"testAdapterPath": ".",
+						"logger": "console;verbosity=normal"
+                    }
+                }
+            ]
+        },
+        {
+            "command": "package",
+            "tasks": [
+                {
+                    "task": "cleanFiles",
+                    "desc": "Clean pkg dirs",
+                    "params": {
+                        "pathGlobs": [
+                            "..\\pkg\\*.nupkg"
+                        ]
+                    }
+                },
+                {
+                    "task": "dotnetPack",
+                    "desc": "Package all projects in the solution",
+                    "params": {
+                        "targetPath": ".\\c3.core.data.mongodb.sln",
+                        "outputPath": "..\\pkg"
+                    }
+                }
+            ]
+        },
+        {
+            "command": "publish",
+            "tasks": [
+                {
+                    "task": "dotnetPublish",
+                    "desc": "Publish to the given output",
+                    "params": {
+                        "configuration": "release",
+						"runtime": "win10-x64",
+						"outputPath": "..\\bin\\publish\\"
+                    }
+                }
+            ]
+        },
+        {
+            "command": "push",
+            "tasks": [
+                {
+                    "task": "dotnetPackPush",
+                    "desc": "Push all packages in the output folder",
+                    "params": {
+                        "packagePath": "..\\pkg\\*.nupkg"
+                    }
+                }
+            ]
+        },
+        {
+            "command": "localpublish",
+            "tasks": [
+                {
+                    "task": "dotnetPublish",
+                    "desc": "Publish all packages in the output folder to a local temporary nuget feed",
+                    "params": {
+                        "packagePath": "..\\pkg\\*.nupkg",
+                        "source": "C3DevNugetRepoUrl"
+                    }
+                }
+            ]
+        }
+    ]
+}

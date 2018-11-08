@@ -1,0 +1,200 @@
+{
+    "setupTasks": [
+        {
+            "task": "setC3BuildVersionSettings",
+            "desc": "Set default c3 build properties",
+            "params": {
+                "company": "C3 Post Trade",
+                "product": "C3.Anaylzers"
+            }
+        }
+    ],
+    "beforeTasks": [
+        {
+            "task": "teamCityTaskOutput",
+            "desc": "Team city block output",
+            "params": {
+                "isBeforeTask": "true"
+            }
+        }
+    ],
+    "afterTasks": [
+        {
+            "task": "teamCityTaskOutput",
+            "desc": "Team city block output",
+            "params": {
+                "isBeforeTask": "false"
+            }
+        }
+    ],
+    "commands": [        
+        {
+            "command": "prep",
+            "tasks": [
+                {
+                    "task": "dockerRun",
+                    "desc": "Run gitversion",
+                    "params": {
+                        "image": "cap-docker.coretexa.local/c3test/gitversion:latest",
+                        "volumes": [
+                            "..:c:\\repo"
+                        ],
+                        "startArguments": "src\\.gitversion.json"
+                    }
+                }
+            ]
+        },
+        {
+            "command": "build",
+            "tasks": [
+                {
+                    "task": "deleteDirectory",
+                    "desc": "Clean up .roottmp directory",
+                    "params": {
+                        "paths": [
+                            "..\\.roottmp",
+                            ".roottmp"
+                        ]
+                    }
+                },
+                {
+                    "task": "copyFiles",
+                    "desc": "Prep csproj files for container build",
+                    "params": {
+                        "fromRootPath": "..",
+                        "srcGlobs": [
+                            "tools\\*.json",
+                            "*.*"
+                        ],
+                        "destPath": "..\\.roottmp"
+                    }
+                },
+                {
+                    "task": "moveDirectory",
+                    "desc": "Move .roottmp into src folder",
+                    "params": {
+                        "srcPath": "..\\.roottmp",
+                        "destPath": ".roottmp"
+                    }
+                },
+                {
+                    "task": "deleteDirectory",
+                    "desc": "Clean up .srctmp directory",
+                    "params": {
+                        "paths": [
+                            "..\\.srctmp",
+                            ".srctmp"
+                        ]
+                    }
+                },
+                {
+                    "task": "copyFiles",
+                    "desc": "Prep csproj files for container build",
+                    "params": {
+                        "srcGlobs": [
+                            "**\\*.csproj",
+                            "*.sln",
+                            "*.props"
+                        ],
+                        "destPath": "..\\.srctmp"
+                    }
+                },
+                {
+                    "task": "moveDirectory",
+                    "desc": "Move .srctmp into src folder",
+                    "params": {
+                        "srcPath": "..\\.srctmp",
+                        "destPath": ".srctmp"
+                    }
+                },
+                {
+                    "task": "dockerBuild",
+                    "desc": "Build builder container",
+                    "params": {
+                        "tag": "c3analyzers",
+                        "pull": "true",
+                        "target": "srcbuild"
+                    }
+                }
+            ],
+            "finallyTasks": [
+                {
+                    "task": "deleteDirectory",
+                    "desc": "Clean up .roottmp directory",
+                    "params": {
+                        "paths": [
+                            "..\\.roottmp",
+                            ".roottmp",
+                            "..\\.srctmp",
+                            ".srctmp"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "command": "unittest",
+            "tasks": [
+                {
+                    "task": "dockerRun",
+                    "desc": "Run unit tests inside container",
+                    "params": {
+                        "image": "c3analyzers",
+                        "startArguments": "c3 dev unittest"
+                    }
+                }
+            ]
+        },
+        {
+            "command": "integrationtest",
+            "tasks": [
+                {
+                    "task": "dockerRun",
+                    "desc": "Run integration tests inside container",
+                    "params": {
+                        "image": "c3analyzers",
+                        "startArguments": "c3 dev integrationtest"
+                    }
+                }
+            ]
+        },
+        {
+            "command": "publish",
+            "tasks": [
+                {
+                    "task": "dockerRun",
+                    "desc": "Publish application inside container",
+                    "params": {
+                        "image": "c3analyzers",
+                        "startArguments": "c3 dev publish"
+                    }
+                }
+            ]
+        },
+        {
+            "command": "push",
+            "tasks": [
+                {
+                    "task": "dockerRun",
+                    "desc": "Publish nuget packages inside container",
+                    "params": {
+                        "image": "c3analyzers",
+                        "startArguments": "c3 dev push"
+                    }
+                }
+            ]
+        },
+        {
+            "command": "clean",
+            "tasks": [
+                {
+                    "task": "powershellCommand",
+                    "desc": "Clean docker images",
+                    "params": {
+                        "command": "docker images --format \"{{{.ID}}},{{{.Repository}}},{{{.Tag}}}\" | where {$_ -notmatch 'microsoft' -And $_ -notmatch 'gitversion' -And $_ -notmatch 'builder'} | foreach { $parts = $_.Split(','); docker rmi $parts[0] -f; if($lastexitcode -ne 0){throw 'Error executing powershell command in task runner'}};"
+                    }
+                }
+            ]
+        }
+    ]
+}

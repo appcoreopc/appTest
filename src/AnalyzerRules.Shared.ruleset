@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+## *********************************************************************************************************
+## This file has been added by C3.DevTools.Build (see https://cap-git.coretexa.local/C3/C3.DevTools)
+## Please do not update this file as it will be overridden by C3.DevTools.Build each time it is refreshed
+## *********************************************************************************************************
+-->
+<RuleSet Name="Rules for StyleCop.Analyzers" Description="Code analysis rules for StyleCop.Analyzers.csproj." ToolsVersion="14.0">
+  <Rules AnalyzerId="AsyncUsageAnalyzers" RuleNamespace="AsyncUsageAnalyzers">
+
+  </Rules>
+  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+
+  </Rules>
+  <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp.Features" RuleNamespace="Microsoft.CodeAnalysis.CSharp.Features">
+
+  </Rules>
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="SA1200" Action="None" /> <!-- using directive should appear within namespace -->
+    <Rule Id="SA1518" Action="None" /> <!-- file is required to end with a newline character -->
+    <Rule Id="SA1600" Action="None" /> <!-- elements should be documented. need to turn this back on! -->
+    <Rule Id="SA1633" Action="None" /> <!-- file header missing -->
+    <Rule Id="CS1591" Action="None" /> <!-- Missing XML comment for publicly visible type or member 'Type_or_Member' -->    
+  </Rules>
+  <Rules AnalyzerId="SonarAnalyzer.CSharp" RuleNamespace="SonarAnalyzer.CSharp">
+    <Rule Id="S1135" Action="Info" /> <!-- Complete TODO -->    
+  </Rules>
+</RuleSet>
