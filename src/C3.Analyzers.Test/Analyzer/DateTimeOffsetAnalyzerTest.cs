@@ -13,8 +13,7 @@ namespace C3.Core.CodeAnalysis.Test.Analyzer
     [TestClass]
     public class DateTimeOffsetAnalyzerTest : CodeFixVerifier
     {
-
-        //No diagnostics expected to show up
+        
         [TestMethod]
         public void TestMethod1()
         {
@@ -23,7 +22,7 @@ namespace C3.Core.CodeAnalysis.Test.Analyzer
             VerifyCSharpDiagnostic(test);
         }
 
-        //Diagnostic and CodeFix both triggered and checked for
+        
         [TestMethod]
         public void TestMethod2()
         {
