@@ -10,8 +10,8 @@
     <ProjectGuid>{D4135F57-BF12-46D4-AAB1-D93E2D29037C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>C3.Core.CodeAnalysis</RootNamespace>
-    <AssemblyName>C3.Core.CodeAnalysis</AssemblyName>
+    <RootNamespace>C3.Analyzers</RootNamespace>
+    <AssemblyName>C3.Analyzers</AssemblyName>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>

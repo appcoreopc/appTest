@@ -82,7 +82,7 @@
                 {
                     "task": "dotnetBuild",
                     "desc": "Build the solution",
-                    "targetPath": ".\\c3.core.data.mongodb.sln"
+                    "targetPath": ".\\C3.Analyzers.sln"
                 }
             ]
         },
@@ -137,7 +137,7 @@
                     "task": "dotnetPack",
                     "desc": "Package all projects in the solution",
                     "params": {
-                        "targetPath": ".\\c3.core.data.mongodb.sln",
+                        "targetPath": ".\\C3.Analyzers.sln",
                         "outputPath": "..\\pkg"
                     }
                 }
