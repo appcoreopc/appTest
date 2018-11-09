@@ -1,12 +1,11 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestHelper;
-using C3.Core.CodeAnalysis;
 using C3.Core.CodeAnalysis.CodeFix;
 using C3.CodeAnalysis.Net.Analyzer;
+using Microsoft.CodeAnalysis.CodeFixes;
 
 namespace C3.Core.CodeAnalysis.Test.Analyzer
 {

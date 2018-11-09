@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-[assembly: InternalsVisibleTo("C3.Core.CodeAnalysis.Test")]
+[assembly: InternalsVisibleTo("C3.Analyzers.Test")]
 
 namespace C3.Core.CodeAnalysis
 {
