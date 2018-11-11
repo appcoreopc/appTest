@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "C3PostTrade.Code.Analyzers.Net", "C3PostTrade.Code.Analyzers.Net\C3PostTrade.Code.Analyzers.Net.csproj", "{D4135F57-BF12-46D4-AAB1-D93E2D29037C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "C3PostTrade.Code.Analyzers.Net.Test", "C3PostTrade.Code.Analyzers.Net.Test\C3PostTrade.Code.Analyzers.Net.Test.csproj", "{BD1379EA-0B6F-440D-A830-02F32E79638A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "C3PostTrade.Code.Analyzers.Net.Test.Unit", "C3PostTrade.Code.Analyzers.Net.Test\C3PostTrade.Code.Analyzers.Net.Test.Unit.csproj", "{BD1379EA-0B6F-440D-A830-02F32E79638A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
