@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard1.3</TargetFramework>
+    <RootNamespace>C3PostTrade.Code.Analyzers.Net</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<IncludeBuildOutput>false</IncludeBuildOutput>
+    <AssemblyName>C3PostTrade.Code.Analyzers.Net</AssemblyName>
+    <Version>1.0.23</Version>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\Debug</OutputPath>
+  </PropertyGroup>  
+  
+  <ItemGroup>
+        <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
+</ItemGroup>
+  
+ <ItemGroup>
+     <None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
+     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+ </ItemGroup>
+ 
+ <ItemGroup>
+   <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="2.6.0" />
+   <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="2.6.0" />
+ </ItemGroup>
+
+   <ItemGroup>
+    <InternalsVisibleTo Include="C3.Analyzers.Test" />
+  </ItemGroup>
+    
+ </Project>

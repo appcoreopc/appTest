@@ -5,7 +5,7 @@
             "desc": "Set default c3 build properties",
             "params": {
                 "company": "C3 Post Trade",
-                "product": "C3.Anaylzers"
+                "product": "C3PostTrade.Code.Analyzers.Net"
             }
         }
     ],

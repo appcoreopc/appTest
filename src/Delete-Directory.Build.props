@@ -1,0 +1,53 @@
+<Project>  
+
+<!-- 
+## *********************************************************************************************************
+## This file has been added by C3.DevTools.Build (see https://cap-git.coretexa.local/C3/C3.DevTools)
+## Please do not update this file as it will be overridden by C3.DevTools.Build each time it is refreshed
+## *********************************************************************************************************
+-->
+
+  <PropertyGroup>
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>..\bin\</OutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+
+  <!-- Add Shared Assembly Attributes for all projects -->
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyAttributes.cs" Condition="Exists('..\SharedAssemblyAttributes.cs')">
+      <Link>Properties\SharedAssemblyAttributes.cs</Link>
+    </Compile>
+    <Compile Include="..\SharedAssemblyAttributes.Tests.cs" Condition="$([System.Text.RegularExpressions.Regex]::IsMatch($(MSBuildProjectFile), '.*\.Tests\.')) AND Exists('..\SharedAssemblyAttributes.Tests.cs')">
+      <Link>Properties\SharedAssemblyAttributes.Tests.cs</Link>
+    </Compile>   
+  </ItemGroup>
+
+  <!-- Add reference to xunit runners for tests projects -->
+  <ItemGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch($(MSBuildProjectFile), '.*\.Tests\.'))">
+    <PackageReference Include="xunit" Version="2.4.0-beta.1.build3958" /> 
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0-beta.1.build3958" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.4.0-beta.1.build3958" />
+  </ItemGroup>
+
+  <!-- Add Code Analyzers -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.8.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.1" />
+    <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta006" PrivateAssets="All" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.1.0.5212" PrivateAssets="All" />
+  </ItemGroup>
+ <PropertyGroup>
+    <CodeAnalysisRuleSet>..\AnalyzerRules.Shared.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+ <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.shared.json" />
+  </ItemGroup>
+
+  <!-- Add reference to generated and custom build property files -->
+  <Import Project="Generated.Build.props" Condition="Exists('Generated.Build.props')"/>
+  <Import Project="Custom.Build.props" Condition="Exists('Custom.Build.props')"/>
+</Project>

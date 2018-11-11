@@ -19,7 +19,7 @@ RUN write-host " Running under Team City: $($env:C3ISRUNNINGONTEAMCITY)"
 
 COPY .srctmp/ src/
 
-RUN dotnet restore src/C3.Analyzers.sln
+RUN dotnet restore src/C3PostTrade.Code.Analyzers.Net.sln
 
 COPY . src/
 

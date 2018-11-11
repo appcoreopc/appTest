@@ -5,7 +5,7 @@
             "desc": "Set default c3 build properties",
             "params": {
                 "company": "C3 Post Trade",
-                "product": "C3.Analyzers"
+                "product": "C3PostTrade.Code.Analyzers.Net"
             }
         }
     ],
@@ -33,6 +33,7 @@
             "tasks": [
                 {
                     "task": "dockerRun",
+                    "desc": "Run gitversion",
                     "desc": "Run gitversion",
                     "params": {
                         "image": "cap-docker.coretexa.local/c3test/gitversion:latest",
@@ -82,7 +83,7 @@
                 {
                     "task": "dotnetBuild",
                     "desc": "Build the solution",
-                    "targetPath": ".\\C3.Analyzers.sln"
+                    "targetPath": ".\\C3PostTrade.Code.Analyzers.Net.sln"
                 }
             ]
         },
@@ -137,7 +138,7 @@
                     "task": "dotnetPack",
                     "desc": "Package all projects in the solution",
                     "params": {
-                        "targetPath": ".\\C3.Analyzers.sln",
+                        "targetPath": ".\\C3PostTrade.Code.Analyzers.Net.sln",
                         "outputPath": "..\\pkg"
                     }
                 }
